@@ -1,0 +1,132 @@
+---
+#QA VPC with publich Subnet in us-west-2
+Resources:
+  QA:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: "10.0.3.0/24"
+      Tags: 
+        - Key: "Name"
+          Value: "QA"
+  QAIG:
+    Type: AWS::EC2::InternetGateway
+    Properties: 
+      Tags: 
+      - Key: "Name"
+        Value: "QAIG"
+  QAIGATTACH:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties: 
+      InternetGatewayId: !Ref "QAIG"
+      VpcId: !Ref "QA"
+  QAPubSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref "QA"
+      AvailabilityZone: us-west-2a
+      CidrBlock: 10.0.3.0/24
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: QAPublic_Subnet
+  QAPublicRT:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref "QA"
+      Tags:
+        - Key: Name
+          Value: QA_public
+  QAPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: "QAIGATTACH"
+    Properties:
+      RouteTableId: !Ref "QAPublicRT"
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref "QAIG"
+  QAPublicSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref "QAPubSubnet"
+      RouteTableId: !Ref "QAPublicRT"
+  QASG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: allow connections from specified CIDR ranges
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 8080
+        ToPort: 8080
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      Tags:
+      - Key: "Name"
+        Value: "QA-Public"
+      VpcId: !Ref "QA"
+#DR VPC with publich Subnet in us-west-2
+  DR:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: "10.0.4.0/24"
+      Tags: 
+        - Key: "Name"
+          Value: "DR"
+  DRIG:
+    Type: AWS::EC2::InternetGateway
+    Properties: 
+      Tags: 
+      - Key: "Name"
+        Value: "DRIG"
+  DRIGATTACH:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties: 
+      InternetGatewayId: !Ref "DRIG"
+      VpcId: !Ref "DR"
+  DRPubSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref "DR"
+      AvailabilityZone: us-west-2a
+      CidrBlock: 10.0.4.0/24
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: DRPublic_Subnet
+  DRPublicRT:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref "DR"
+      Tags:
+        - Key: Name
+          Value: DR_public
+  DRPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: "DRIGATTACH"
+    Properties:
+      RouteTableId: !Ref "DRPublicRT"
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref "DRIG"
+  DRPublicSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref "DRPubSubnet"
+      RouteTableId: !Ref "DRPublicRT"
+  DRSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: allow connections from specified CIDR ranges
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 8080
+        ToPort: 8080
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      Tags:
+      - Key: "Name"
+        Value: "DR-Public"
+      VpcId: !Ref "DR"
