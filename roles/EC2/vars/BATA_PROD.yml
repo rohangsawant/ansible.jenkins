@@ -1,0 +1,12 @@
+key_name: ec2key
+instance_type: t2.micro 
+image: ami-0a0ad6b70e61be944
+region: us-east-2
+group_id: sg-0f3804247b5f197fe
+count: 1
+vpc_subnet_id: subnet-02454f81f45b16e54
+assign_public_ip: yes
+instance_tags:
+Name: BATA_PROD
+wait_timeout: 60
+...

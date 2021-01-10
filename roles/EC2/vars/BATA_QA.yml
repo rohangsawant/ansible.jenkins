@@ -1,0 +1,12 @@
+key_name: instance_key
+instance_type: t2.micro 
+image: ami-0a36eb8fadc976275
+region: us-west-2
+group_id: sg-0de3b08c1094ae3e9
+count: 1
+vpc_subnet_id: subnet-0ac0487a822999e3f
+assign_public_ip: yes
+instance_tags:
+Name: BATA_QA
+wait_timeout: 60
+...
