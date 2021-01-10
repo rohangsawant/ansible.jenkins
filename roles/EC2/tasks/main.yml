@@ -5,15 +5,16 @@
 # tasks file for EC2
 - name: Provision EC2 instance
   ec2:
-     key_name: "{{ keypair }}" 
-     instance_type: t2.micro
-     image: ami-09558250a3419e7d0
-     region: us-east-2
-     group_id: sg-0cf1310e67515f6f9
+     key_name: "{{ key_name }}"
+     instance_type: "{{ instance_type }}"
+     image: "{{ image }}"
+     region: "{{ region }}"
+     group_id: "{{ group_id }}"
      count: 1
-     vpc_subnet_id: subnet-0076cb001eb5a9f6b
-     assign_public_ip: yes
+     vpc_subnet_id: "{{ vpc_subnet_id }}"
+     assign_public_ip: "{{ assign_public_ip }}"
      instance_tags:
-       Name: Jenkins
-     wait_timeout: 60
+       Name: "{{ Name }}"
+     wait_timeout: "{{ wait_timeout }}"
+
 ...
