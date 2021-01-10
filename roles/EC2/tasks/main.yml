@@ -1,7 +1,7 @@
 ---
 - name: Read Env variables
   include_vars:
-    file: "vars/{{ PROJECT }}_{{ ENV }}.yml"
+    file: "vars\{{ PROJECT }}_{{ ENV }}.yml"
 # tasks file for EC2
 - name: Provision EC2 instance
   ec2:
@@ -16,5 +16,3 @@
      instance_tags:
        Name: "{{ Name }}"
      wait_timeout: "{{ wait_timeout }}"
-
-...
