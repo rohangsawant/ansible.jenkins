@@ -1,0 +1,15 @@
+pipeline{
+    agent any
+    stages{
+        stage('Download code from Git'){
+            steps{
+                git branch: 'main', url: 'https://github.com/AnantV-dev/ansible.jenkins'
+            }
+        }
+        stage('Ansible Execuate'){
+            steps{
+                ansiblePlaybook installation: 'ansible', inventory: 'hosts', playbook: 'create.yml'
+            }
+        }
+    }
+}
