@@ -1,5 +1,6 @@
 ---
 - name: Read Env variables
+  gather_facts: True
   include_vars:
     file: "vars/{{ PROJECT }}_{{ ENV }}.yml"
 - name: Provision EC2 instance
