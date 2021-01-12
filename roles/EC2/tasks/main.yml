@@ -1,6 +1,6 @@
 ---
 - name: Read Env variables
-  include_vars: {{ item }}
+  include_vars: "{{ item }}"
   with_first_found:
     - "{{ PROJECT }}_{{ ENV }}.yml"
     - default.yml
