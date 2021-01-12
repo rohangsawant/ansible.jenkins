@@ -3,7 +3,6 @@
   include_vars: "{{ item }}"
   with_first_found:
     - "{{ PROJECT }}_{{ ENV }}.yml"
-    - default.yml
 - name: Provision EC2 instance
   ec2:
      key_name: "{{ key_name }}"
