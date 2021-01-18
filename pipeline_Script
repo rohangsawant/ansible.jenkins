@@ -6,6 +6,16 @@ pipeline{
                 git branch: 'main', url: 'https://github.com/AnantV-dev/ansible.jenkins'
             }
         }
+        stage('Ansible init'){
+            steps{
+                script {
+                
+                def tfHome = tool name: 'Ansible'
+                env.PATH = "${tfHome}:${env.PATH}"
+                sh 'ansible --version'
+                    
+            }
+        }
         stage('Ansible Execuate'){
             steps{
                 ansiblePlaybook installation: 'ansible', inventory: 'hosts', playbook: 'create.yml'
