@@ -1,7 +1,7 @@
 ---
 - name: "Read Env variables"
   include_vars:
-     file: "vars/BATA_DR.yml"
+     file: "vars/{{ PROJECT }}_{{ ENV }}"
 - name: Provision EC2 instance
   ec2:
      key_name: "{{ key_name }}"
