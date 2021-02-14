@@ -1,6 +1,6 @@
 ---
 - name:  Create EC2 instance
-  hosts: all
+  hosts: localhost
   connection: local
   roles:
     - role: EC2
