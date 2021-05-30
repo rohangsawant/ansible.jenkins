@@ -1,3 +1,9 @@
 ---
 # vars file for EC2
 keypair:
+PROJECT :
+  - BATA
+  - TATA
+ENV :
+  - DEV
+  - PROD
