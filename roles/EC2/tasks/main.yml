@@ -1,6 +1,6 @@
 ---
 - name: Read Env variables
-  include_vars:
+  include_vars: 
      files: "{{ PROJECT }}_{{ ENV }}.yml"
 - name: Provision EC2 instance
   ec2:
